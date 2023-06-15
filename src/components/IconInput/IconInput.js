@@ -28,23 +28,20 @@ const IconInput = ({
   size,
   ...delegated
 }) => {
-  const styles = STYLES[size];
-
-  // TODO: validate size
+  const iconSize = size === 'small' ? 16 : 24;
+  const Input = size === 'small'
+    ? SmallInput
+    : LargeInput;
 
   return (
     <Wrapper>
-      <VisuallyHidden>{label}</VisuallyHidden>
-      <IconWrapper style={{ '--size': styles.iconSize + 'px' }}>
-        <Icon id={icon} size={styles.iconSize} />
+      <IconWrapper style={{ '--size': iconSize + 'px' }}>
+        <Icon id={icon} size={iconSize} />
       </IconWrapper>
-      <TextInput
+      <Input
         {...delegated}
         style={{
           '--width': width + 'px',
-          '--height': styles.height / 16 + 'rem',
-          '--border-thickness': styles.borderThickness + 'px',
-          '--font-size': styles.fontSize / 16 + 'rem',
         }}
       />
     </Wrapper>
@@ -71,11 +68,7 @@ const IconWrapper = styled.div`
 
 const TextInput = styled.input`
   width: var(--width);
-  height: var(--height);
-  font-size: var(--font-size);
   border: none;
-  border-bottom: var(--border-thickness) solid ${COLORS.black};
-  padding-left: var(--height);
   color: inherit;
   font-weight: 700;
   outline-offset: 2px;
@@ -84,6 +77,20 @@ const TextInput = styled.input`
     font-weight: 400;
     color: ${COLORS.gray500};
   }
+`;
+
+const SmallInput = styled(TextInput)`
+  height: 24px;
+  font-size: ${14 / 16}rem;
+  border-bottom: 1px solid ${COLORS.black};
+  padding-left: 24px;
+`;
+
+const LargeInput = styled(TextInput)`
+  height: 36px;
+  font-size: ${18 / 16}rem;
+  border-bottom: 2px solid ${COLORS.black};
+  padding-left: 36px;
 `;
 
 export default IconInput;
